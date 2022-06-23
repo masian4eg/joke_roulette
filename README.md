@@ -1,9 +1,9 @@
 ## Joke Roulette
 
 ### Развертывание docker
-docker-compose up -d --build
-docker-compose exec web python manage.py makemigrations
-docker-compose exec web python manage.py migrate - сделать миграции
+- docker-compose up -d --build
+- docker-compose exec web python manage.py makemigrations
+- docker-compose exec web python manage.py migrate - сделать миграции
 
 #### Регистрация пользователя:
 POST http://127.0.0.1:8000/api/auth/users с username и password (email опционально)

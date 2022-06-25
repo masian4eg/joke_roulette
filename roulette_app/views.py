@@ -24,7 +24,7 @@ class GameViewSet(viewsets.ModelViewSet):
         # помещаем в функцию рулетки
         get_spins(current_array)
 
-        # определяем последнюю созданный раунд
+        # определяем последний созданный раунд
         game = Game.objects.order_by('id').last()
 
         # присваиваем новый список модели game после первого хода
@@ -32,6 +32,7 @@ class GameViewSet(viewsets.ModelViewSet):
 
         # добавляем игрока начавшего раунд в список участвоваших
         game.players_array.append(request.user.id)
+        game.players.add(request.user.id)
 
         # добавляем количество сыгранных раундов игроку
         player = Player.objects.get(id=request.user.id)
@@ -73,6 +74,7 @@ class GameViewSet(viewsets.ModelViewSet):
         if request.user.id not in game.players_array:
             game.players_array.append(request.user.id)
             player.rounds_qty += 1
+            game.players.add(request.user.id)
 
         # добавляем в статистику игроку прокрут рулетки
         player.spins += 1

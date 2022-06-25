@@ -11,4 +11,4 @@ class PlayerSerializer(serializers.ModelSerializer):
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'players_qty']
+        fields = ['id', 'players_qty', 'array']

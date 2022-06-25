@@ -8,7 +8,7 @@ from .logic import get_spins
 
 
 class GameViewSet(viewsets.ModelViewSet):
-    queryset = Game.objects.order_by('-players_qty')
+    queryset = Game.objects.order_by('-id')
     serializer_class = GameSerializer
     permission_classes = (IsAuthenticated, )
 
@@ -32,7 +32,6 @@ class GameViewSet(viewsets.ModelViewSet):
 
         # добавляем игрока начавшего раунд в список участвоваших
         game.players_array.append(request.user.id)
-        game.players.add(request.user.id)
 
         # добавляем количество сыгранных раундов игроку
         player = Player.objects.get(id=request.user.id)
@@ -46,6 +45,7 @@ class GameViewSet(viewsets.ModelViewSet):
 
         # подсчитываем количество игроков участвовавших в раунде
         game.players_qty = len(game.players_array)
+
         game.save()
         player.save()
 
@@ -74,7 +74,6 @@ class GameViewSet(viewsets.ModelViewSet):
         if request.user.id not in game.players_array:
             game.players_array.append(request.user.id)
             player.rounds_qty += 1
-            game.players.add(request.user.id)
 
         # добавляем в статистику игроку прокрут рулетки
         player.spins += 1
@@ -95,3 +94,15 @@ class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.order_by('-rounds_qty')
     serializer_class = PlayerSerializer
     permission_classes = (IsAuthenticated, )
+    # fields = ['id', 'rounds_qty', 'average_spin']
+
+
+class GameStatisticsViewSet(viewsets.ModelViewSet):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    fields = ['id', 'players_qty', 'array']
+
+
+class PlayersStatisticsViewSet(viewsets.ModelViewSet):
+    queryset = Player.objects.order_by('-rounds_qty')
+    serializer_class = PlayerSerializer

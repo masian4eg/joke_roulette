@@ -5,10 +5,10 @@ from .models import Player, Game
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = ['id', 'rounds_qty', 'average_spin']
+        fields = '__all__'
 
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'players_qty', 'array']
+        fields = '__all__'

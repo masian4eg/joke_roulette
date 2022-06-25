@@ -18,9 +18,6 @@ class Player(models.Model):
 class Game(models.Model):
     players_qty = models.IntegerField(null=True, blank=True, verbose_name='Количество игроков')
     players_array = ArrayField(base_field=models.IntegerField(), default=[], null=True)
-    players = models.ManyToManyField(
-        Player, verbose_name='Участвовавшие игроки', related_name='players'
-    )
     array = ArrayField(
         base_field=models.PositiveIntegerField(), default=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], null=True, blank=True
     )

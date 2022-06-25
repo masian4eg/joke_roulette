@@ -66,26 +66,32 @@ class GameViewSet(viewsets.ModelViewSet):
         # определяем игрока
         player = Player.objects.get(id=request.user.id)
 
-        # делаем очередной ход в раунде
-        get_spins(game.array)
+        # проверяем активная ли еще игра
+        if game.is_finished:
+            return Response(serializer.data)
+        else:
+            # делаем очередной ход в раунде
+            # если сделан 11 ход - игра заканчивается
+            if get_spins(game.array) == 11:
+                game.is_finished = True
 
-        # если игрок не участвовал ранее в раунде, то добавляем его в список участвовавших
-        # добавляем ему игру в статистику
-        if request.user.id not in game.players_array:
-            game.players_array.append(request.user.id)
-            player.rounds_qty += 1
+            # если игрок не участвовал ранее в раунде, то добавляем его в список участвовавших
+            # добавляем ему игру в статистику
+            if request.user.id not in game.players_array:
+                game.players_array.append(request.user.id)
+                player.rounds_qty += 1
 
-        # добавляем в статистику игроку прокрут рулетки
-        player.spins += 1
+            # добавляем в статистику игроку прокрут рулетки
+            player.spins += 1
 
-        # обновляем статистику среднее количество прокрутов игрока за раунд
-        player.average_spin = player.spins // player.rounds_qty
+            # обновляем статистику среднее количество прокрутов игрока за раунд
+            player.average_spin = player.spins // player.rounds_qty
 
-        # обновляем общее количество игроков участвовавших в игре
-        game.players_qty = len(game.players_array)
+            # обновляем общее количество игроков участвовавших в игре
+            game.players_qty = len(game.players_array)
 
-        game.save()
-        player.save()
+            game.save()
+            player.save()
 
         return Response(serializer.data)
 

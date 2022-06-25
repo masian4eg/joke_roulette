@@ -21,6 +21,7 @@ class Game(models.Model):
     array = ArrayField(
         base_field=models.PositiveIntegerField(), default=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], null=True, blank=True
     )
+    is_finished = models.BooleanField(default=False)
 
     def __str__(self):
         return f'#{self.pk}'

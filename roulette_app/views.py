@@ -3,7 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from .models import Player, Game
-from .serializers import PlayerSerializer, GameSerializer
+from .serializers import PlayerSerializer, GameSerializer, PlayerStatisticsSerializer, GameStatisticsSerializer
 from .logic import get_spins
 
 
@@ -94,15 +94,13 @@ class PlayerViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.order_by('-rounds_qty')
     serializer_class = PlayerSerializer
     permission_classes = (IsAuthenticated, )
-    # fields = ['id', 'rounds_qty', 'average_spin']
 
 
 class GameStatisticsViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
-    serializer_class = GameSerializer
-    fields = ['id', 'players_qty', 'array']
+    serializer_class = GameStatisticsSerializer
 
 
 class PlayersStatisticsViewSet(viewsets.ModelViewSet):
     queryset = Player.objects.order_by('-rounds_qty')
-    serializer_class = PlayerSerializer
+    serializer_class = PlayerStatisticsSerializer

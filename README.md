@@ -21,7 +21,7 @@ POST http://127.0.0.1:8000/api/games/
 PATCH http://127.0.0.1:8000/api/games/{id}
 
 ### Статистика в JSON по раундам (id, количество гроков)
-GET http://127.0.0.1:8000/api/games/
+GET http://127.0.0.1:8000/api/games_statistics/
 
 ### Статистика по игрокам (id, сыграно раундов, среднее кол-во спинов за раунд)
-GET http://127.0.0.1:8000/api/players/
+GET http://127.0.0.1:8000/api/players_statistics/
